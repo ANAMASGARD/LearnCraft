@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Button } from '@/components/ui/button'
-import { Loader2Icon, Sparkle } from 'lucide-react'
+import { LoaderPinwheelIcon, Sparkle } from 'lucide-react'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/navigation'
@@ -128,7 +128,7 @@ const onGenerate = async () => {
           </div>
             <div className="mt-5 flex flex-col ">
                  <Button className={'w-full'} onClick={onGenerate} disabled={loading} > 
-                  {loading?<Loader2Icon className='animate-spin' />:
+                  {loading?<LoaderPinwheelIcon className='animate-spin' />:
                   <Sparkle />} Generate Course </Button></div>
       
         </div>

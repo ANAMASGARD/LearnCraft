@@ -3,10 +3,15 @@ import { BookA, Clock, LoaderPinwheelIcon, Settings2, Swords } from 'lucide-reac
 import React from 'react'
 import { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 function CourseInfo({course}) {
     const courseLayout = course?.courseJson?.course;
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
+    
+
     const GenerateCourseContent = async () => {
         // Call the API to generate the course content
 
@@ -19,10 +24,14 @@ function CourseInfo({course}) {
             });
             console.log(result.data);
             setLoading(false);
+            router.replace('/workplace')
+            toast.success("Course Content Generated Successfully")
     } 
         catch (e) {
             console.log(e);
             setLoading(false);
+            toast.error("Server Side Error, try again ")
+
             
         }
     }
