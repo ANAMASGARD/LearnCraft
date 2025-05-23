@@ -10,14 +10,14 @@ export const usersTable = pgTable("users", {
 export const coursesTable = pgTable("courses", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   cid: varchar().notNull(),
-  name: varchar({ length: 255 }).notNull(),
-  description: varchar({ length: 255 }).notNull(),
+  name: varchar(),
+  description: varchar(),
   
   noOfChapters: integer().notNull(),
   includeVideo: boolean().default(false),
   
-  level: varchar({ length: 255 }).notNull(),
-  category: varchar({ length: 255 }).notNull(),
+  level: varchar().notNull(),
+  category: varchar(),
   courseJson: json(),
-  userEmail: varchar('userEmail').references(() => usersTable.email),
+  userEmail: varchar('userEmail').references(() => usersTable.email).notNull(),
 })

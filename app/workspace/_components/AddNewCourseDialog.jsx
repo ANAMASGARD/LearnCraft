@@ -58,13 +58,13 @@ const onGenerate = async () => {
     ...formData,
     courseId:courseId,
   });
-  console.log(result,data);
+  console.log(result.data);
   setLoading(false);
   router.push('/workspace/edit-course/'+result.data?.courseId);
 }
-  catch (error) {
+  catch (e) {
     setLoading(false);
-    console.log(error);
+    console.log(e);
     
   }
 }
@@ -107,7 +107,7 @@ const onGenerate = async () => {
           <div>
             <label className='text-bold flex-gap items-center'>Difficulty Level </label>
               
-                    <Select className="w-full" onValueChange={(value) => onHandleInputChange('Level', value)}>
+                    <Select className="w-full" onValueChange={(value) => onHandleInputChange('level', value)}>
   <SelectTrigger className="w-full">
     <SelectValue placeholder="Difficulty Level " />
   </SelectTrigger>
