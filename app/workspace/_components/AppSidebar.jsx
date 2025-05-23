@@ -19,6 +19,7 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 
 import Image from "next/image"
 import { usePathname } from "next/navigation"
+import AddNewCourseDialog from "./AddNewCourseDialog"
 
 const SidebarOptions = [ {
     title: "Dashboard",
@@ -66,9 +67,11 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup >
+            <AddNewCourseDialog>
          <Button>
-            Create new course
+            Create New Course
          </Button>
+         </AddNewCourseDialog>
 
             </SidebarGroup>
         <SidebarGroup >
