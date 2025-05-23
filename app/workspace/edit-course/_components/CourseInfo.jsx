@@ -1,11 +1,33 @@
 import { Button } from '@/components/ui/button';
-import { BookA, Clock, Settings2, Swords } from 'lucide-react';
+import { BookA, Clock, LoaderPinwheelIcon, Settings2, Swords } from 'lucide-react';
 import React from 'react'
+import { useState } from 'react';
+import axios from 'axios';
 
 function CourseInfo({course}) {
     const courseLayout = course?.courseJson?.course;
+    const [loading, setLoading] = useState(false);
+    const GenerateCourseContent = async () => {
+        // Call the API to generate the course content
+
+        setLoading(true);
+        try {
+            const result = await axios.post('/api/generate-course-content', {
+                courseJson:courseLayout ,
+                 courseTitle:course?.name,
+                 courseId:course?.cid,
+            });
+            console.log(result.data);
+            setLoading(false);
+    } 
+        catch (e) {
+            console.log(e);
+            setLoading(false);
+            
+        }
+    }
   return (
-    <div>
+    <div className='flex flex-col gap-4 p-4 rounded-lg shadow-md bg-gray-50'>
         <div className=' md:flex flex-col gap-3'>
             <h2 className="text-3xl font-bold text-gray-900">
                 {courseLayout?.name}
@@ -37,7 +59,10 @@ function CourseInfo({course}) {
                     <h2>{course?.level} </h2>
                 </section>
             </div>
-            <Button className={'max-w-sm'}> <Settings2 />  Generate Course </Button>
+            <Button className={'max-w-sm'} onClick={GenerateCourseContent}
+            disabled={loading}>
+            {loading ? <LoaderPinwheelIcon className='animate-spin' /> :
+             <Settings2 /> }  Generate Course </Button>
 </div>
         </div>
         

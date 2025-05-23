@@ -6,43 +6,48 @@ import {
   GoogleGenAI,
 } from '@google/genai';
 
-import { uuid } from 'drizzle-orm/pg-core';
 import { NextResponse } from 'next/server';
-import { v4 as uuidv4 } from 'uuid';
 
-const PROMPT =`Genrate Learning Course depends on following details.
- In which Make sure to add Course Name, Description, Chapter Name, Image Prompt 
- (Create a modern, flat-style 2D digital illustration representing user Topic. 
- Include UI/UX elements such as mockup screens, text blocks, icons, buttons, and 
- creative workspace tools. Add symbolic elements related to user Course, 
- like sticky notes, design components, and visual aids. Use a vibrant color palette 
- (blues, purples, oranges) with a clean, professional look. The illustration should feel creative, tech-savvy, and educational, ideal for visualizing concepts in user Course) for Course Banner in 3d format, Topic under each chapters, Duration for each chapters etc, in JSON format only.
+
+const PROMPT =`Genrate Learning Course depends on following details. In which Make sure to add Course Name, Description,Course Banner Image Prompt (Create a modern, flat-style 2D digital illustration representing user Topic. Include UI/UX elements such as mockup screens, text blocks, icons, buttons, and creative workspace tools. Add symbolic elements related to user Course, like sticky notes, design components, and visual aids. Use a vibrant color palette (blues, purples, oranges) with a clean, professional look. The illustration should feel creative, tech-savvy, and educational, ideal for visualizing concepts in user Course) for Course Banner in 3d format Chapter Name, , Topic under each chapters , Duration for each chapters etc, in JSON format only
 
 Schema:
-{
-"course":{
-"name": "string",
-"description": "string".
-"category": "string",
-"level": "string
-"includeVideo": "boolean",
-"noOfChapters": "number",
 
-"chapters": [
 {
-"chapterName": "string",
-"duration": "string",
-"topics":[
-"string"
-],
-"ImagePrompt": "string"
+  "course": {
+    "name": "string",
+    "description": "string",
+    "category": "string",
+    "level": "string",
+    "includeVideo": "boolean",
+    "noOfChapters": "number",
+
+"bannerImagePrompt": "string",
+    "chapters": [
+      {
+        "chapterName": "string",
+        "duration": "string",
+        "topics": [
+          "string"
+        ],
+     
+      }
+    ]
+  }
 }
-]
-}
-},
-User Input: 
+
+, User Input: 
+
+ 
 `
 ;
+
+
+  export const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+  });
+
+
 
 export async function POST(request) {
     const {courseId, ...formData} = await request.json();
@@ -51,12 +56,6 @@ export async function POST(request) {
 // npm install @google/genai mime
 // npm install -D @types/node
 
-
-
-
-  const ai = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY,
-  });
   const config = {
     responseMimeType: 'text/plain',
   };
