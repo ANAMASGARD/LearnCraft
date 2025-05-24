@@ -1,10 +1,34 @@
 import React from 'react'
 import Image from 'next/image'
-import { BookAIcon, Link, PlayCircle, Settings, SettingsIcon } from 'lucide-react';
+import { BookAIcon, Link, LoaderPinwheel, PlayCircle, Settings, SettingsIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import axios from 'axios';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 function CourseCard({course}) {
   const courseJson = course?.courseJson?.course;
+  const [loading, setLoading] = useState(false);
+  const onEnrollCourse = async () => {
+    try {
+    setLoading(true);
+      const result = await axios.post('/api/enroll-course', {
+        courseId: course?.cid
+      });
+      console.log(result.data);
+      if (result.data.resp) {
+        toast.warning('Already enrolled in this course');
+        setLoading(false);
+        return;
+
+      }
+      toast.success('Successfully enrolled in course');
+      setLoading(false);
+    } catch (error) {
+      toast.error('Server Side error ! Failed to enroll in course');
+      setLoading(false);
+    }
+  }
   
   return (
     <div className='shadow-md rounded-xl flex flex-col h-full overflow-hidden transition-all hover:shadow-lg'>
@@ -27,20 +51,24 @@ function CourseCard({course}) {
           </div>
           
           {course?.courseContent?.length ? (
-            <Button size="sm" className="w-full mt-1 gap-2 flex items-center justify-center">
-              <PlayCircle className="h-4 w-4" /> 
-              Start Learning
+            <Button size="sm" className="w-full mt-1 gap-2 flex items-center justify-center"
+              onClick={onEnrollCourse}
+              disabled={loading}>
+                {loading ? <LoaderPinwheel className='animate-spin'/> : (
+                  <>
+                    <PlayCircle className="h-4 w-4" /> 
+                    Enroll Course
+                  </>
+                )}
             </Button>
           ) : (
             <Link href={'/workspace/edit-course/' + course?.cid} className="w-full">
-              <Button 
-                size="sm" 
-                className="w-full mt-1 gap-2 flex items-center border-2 justify-center bg-primary text-white hover:bg-primary/90"
-              > 
-                <SettingsIcon className="h-4 w-4" /> 
-                <div>
-                    Generate Course
-                </div>
+              <Button
+                size="sm"
+                className="w-full mt-1 gap-2 flex items-center justify-center bg-yellow-100 text-gray-800 border border-red-300 hover:bg-gray-200 hover:border-primary transition-colors font-semibold"
+              >
+                <SettingsIcon className="h-4 w-4" />
+                Generate Course
               </Button>
             </Link>
           )}
