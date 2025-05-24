@@ -22,7 +22,7 @@ function EditCourse() {
         setLoading(false);
         setCourse(result.data);
     }
-
+// 3;06;15
 
   return (
     <div>
