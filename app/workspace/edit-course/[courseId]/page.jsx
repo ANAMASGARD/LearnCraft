@@ -5,8 +5,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import CourseInfo from '../_components/CourseInfo';
 import ChapterTopicList from '../_components/ChapterTopicList';
-function EditCourse() {
-    const {courseId} = useParams();
+
+export default function EditCoursePage({ params }) {
+    const { courseId } = useParams();
     const [loading, setLoading] = useState(false);
     const [course, setCourse] = useState();
 
@@ -14,7 +15,7 @@ function EditCourse() {
         GetCourseInfo();
     }, [])
       
-    const GetCourseInfo= async () => {
+    const GetCourseInfo = async () => {
         setLoading(true);
         const result = await axios.get('/api/courses?courseId=' + courseId);
         
@@ -22,14 +23,12 @@ function EditCourse() {
         setLoading(false);
         setCourse(result.data);
     }
-// 3;06;15
 
-  return (
-    <div>
-        <CourseInfo course={course }/>
-        <ChapterTopicList course={course}  />
-    </div>
-  )
+    return (
+        <div>
+            {/* Explicitly set viewCourse to false */}
+            <CourseInfo course={course} viewCourse={false} />
+            <ChapterTopicList course={course} />
+        </div>
+    )
 }
-
-export default EditCourse

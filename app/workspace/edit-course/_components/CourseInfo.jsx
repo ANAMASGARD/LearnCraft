@@ -1,12 +1,12 @@
 import { Button } from '@/components/ui/button';
-import { BookA, Clock, LoaderPinwheelIcon, Settings2, Swords } from 'lucide-react';
+import { BookA, Clock, LoaderPinwheelIcon, PlaneTakeoffIcon, Settings2, Swords } from 'lucide-react';
 import React from 'react'
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
-function CourseInfo({course}) {
+function CourseInfo({course,viewCourse}) {
     const courseLayout = course?.courseJson?.course;
     const [loading, setLoading] = useState(false);
     const router = useRouter();
@@ -24,7 +24,7 @@ function CourseInfo({course}) {
             });
             console.log(result.data);
             setLoading(false);
-            router.replace('/workplace')
+            router.replace('/workspace') // Correct path
             toast.success("Course Content Generated Successfully")
     } 
         catch (e) {
@@ -68,10 +68,15 @@ function CourseInfo({course}) {
                     <h2>{course?.level} </h2>
                 </section>
             </div>
+            {!viewCourse ?
             <Button className={'max-w-sm'} onClick={GenerateCourseContent}
             disabled={loading}>
             {loading ? <LoaderPinwheelIcon className='animate-spin' /> :
              <Settings2 /> }  Generate Course </Button>
+            :<Button >
+                <PlaneTakeoffIcon className='h-4 w-4' />
+                Continue Learning
+                </Button>}
 </div>
         </div>
         

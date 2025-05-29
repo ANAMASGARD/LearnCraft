@@ -47,7 +47,7 @@ function EnrollCourseCard({course, enrollCourse}) {
                     </h2>
                     <Progress value={calculateProgress()} className="h-2 my-2" />
 
-                    <Link href={'/workspace/course/'+course?.cid} className='block w-full'>
+                    <Link href={'/workspace/view-course/'+course?.cid} className='block w-full'>
                         <Button className='w-full mt-2 gap-1 flex items-center justify-center'>
                             <PlayCircle className="h-4 w-4" /> 
                             Continue Learning
