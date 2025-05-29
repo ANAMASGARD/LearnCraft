@@ -6,7 +6,7 @@ import { currentUser } from '@clerk/nextjs/server';
 
 export async function GET(req) {
     const { searchParams } = new URL(req.url);
-    const courseId = searchParams.get('courseId');
+    const courseId = searchParams?.get('courseId');
     const user = await currentUser(); // Renamed to "user" to match usage below
     
     if (courseId) {

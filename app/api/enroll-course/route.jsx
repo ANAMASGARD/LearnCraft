@@ -4,38 +4,53 @@ import { coursesTable , enrollCourseTable } from "@/config/schema"; // Note the 
 import { and, desc ,eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
-
 export async function POST(request) {
 
   const { courseId } = await request.json(); 
   const user = await currentUser();
-//if course already enrolled 
-const enrollCourses = await db.select().from(enrollCourseTable)
-.where(and(eq(enrollCourseTable.userEmail, user?.primaryEmailAddress.emailAddress), 
-eq(enrollCourseTable.cid, courseId)))
+  //if course already enrolled 
+  const enrollCourses = await db.select().from(enrollCourseTable)
+  .where(and(eq(enrollCourseTable.userEmail, user?.primaryEmailAddress.emailAddress), 
+  eq(enrollCourseTable.cid, courseId)))
 
-if(enrollCourses?.length == 0) {
-    const result = await db.insert(enrollCourseTable).values({
-      cid: courseId,
-      userEmail: user.primaryEmailAddress?.emailAddress,
-      
-    }).returning(enrollCourseTable);
+  if(enrollCourses?.length == 0) {
+      const result = await db.insert(enrollCourseTable).values({
+        cid: courseId,
+        userEmail: user.primaryEmailAddress?.emailAddress,
+        
+      }).returning(enrollCourseTable);
 
-    return NextResponse.json(result);
+      return NextResponse.json(result);
+  }
+    
+  return NextResponse.json('resp : Already enrolled in this course');
 }
-  
-return NextResponse.json('resp : Already enrolled in this course');
 
-}
+export async function GET(request) {  // Use 'request' not 'req'
+  try {
+    const user = await currentUser();
 
-export async function GET(request) {
+    const { searchParams } = new URL(request.url);  // Fixed line
+    const courseId = searchParams.get('courseId');
 
-        const user = await currentUser();
+    if(courseId) {
+      const result = await db.select().from(coursesTable)
+      .innerJoin(enrollCourseTable,eq(coursesTable.cid, enrollCourseTable.cid))
+      .where(and(eq(enrollCourseTable.userEmail, user?.primaryEmailAddress.emailAddress),
+      eq(enrollCourseTable.cid, courseId)))
+      .orderBy(desc(enrollCourseTable.id));
 
-    const result = await db.select().from(coursesTable)
-    .innerJoin(enrollCourseTable,eq(coursesTable.cid, enrollCourseTable.cid))
-    .where(eq(enrollCourseTable.userEmail, user?.primaryEmailAddress.emailAddress))
-    .orderBy(desc(enrollCourseTable.id));
+      return NextResponse.json(result[0]);
+    } else {
+      const result = await db.select().from(coursesTable)
+      .innerJoin(enrollCourseTable,eq(coursesTable.cid, enrollCourseTable.cid))
+      .where(eq(enrollCourseTable.userEmail, user?.primaryEmailAddress.emailAddress))
+      .orderBy(desc(enrollCourseTable.id));
 
-    return NextResponse.json(result);
+      return NextResponse.json(result);
+    }
+  } catch (error) {
+    console.error("API error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }

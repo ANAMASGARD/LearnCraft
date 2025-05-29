@@ -5,6 +5,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import Link from 'next/link';
 
 function CourseInfo({course,viewCourse}) {
     const courseLayout = course?.courseJson?.course;
@@ -73,10 +74,12 @@ function CourseInfo({course,viewCourse}) {
             disabled={loading}>
             {loading ? <LoaderPinwheelIcon className='animate-spin' /> :
              <Settings2 /> }  Generate Course </Button>
-            :<Button >
+            :  <Link href={'/course/'+course?.cid} > 
+            <Button >
                 <PlaneTakeoffIcon className='h-4 w-4' />
                 Continue Learning
-                </Button>}
+                </Button>
+                </Link>}
 </div>
         </div>
         
