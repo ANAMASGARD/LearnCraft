@@ -26,7 +26,6 @@ export default function EditCoursePage({ params }) {
 
     return (
         <div>
-            {/* Explicitly set viewCourse to false */}
             <CourseInfo course={course} viewCourse={false} />
             <ChapterTopicList course={course} />
         </div>
