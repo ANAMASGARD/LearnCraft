@@ -1,10 +1,11 @@
 import React from 'react'
 import Image from 'next/image'
-import { BookAIcon, Link, LoaderPinwheel, PlayCircle, Settings, SettingsIcon } from 'lucide-react';
+import { BookAIcon, LoaderPinwheel, PlayCircle, Settings, SettingsIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import Link from 'next/link'; // Correct import for Next.js Link
 
 function CourseCard({course}) {
   const courseJson = course?.courseJson?.course;
@@ -65,7 +66,7 @@ function CourseCard({course}) {
             <Link href={'/workspace/edit-course/' + course?.cid} className="w-full">
               <Button
                 size="sm"
-                className="w-full mt-1 gap-2 flex items-center justify-center bg-yellow-100 text-gray-800 border border-red-300 hover:bg-gray-200 hover:border-primary transition-colors font-semibold"
+                className="w-full mt-1 gap-2 flex items-center justify-center bg-gray-100 text-gray-800 border border-blue-300 hover:bg-gray-200 hover:border-primary transition-colors font-semibold"
               >
                 <SettingsIcon className="h-4 w-4" />
                 Generate Course

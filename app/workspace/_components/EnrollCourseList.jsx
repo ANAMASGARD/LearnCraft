@@ -25,7 +25,11 @@ function EnrollCourseList() {
         <h2 className='font-bold text-xl'> Continue Learning your Courses </h2>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-5'>
         {enrolledCourseList?.map((course, index) => (
-            <EnrollCourseCard course={course?.course} enrollCourse={course?.enrollCourse} key={index}/>
+            <EnrollCourseCard 
+              course={course?.courses}  // Note: "courses" not "course"
+              enrollCourse={course?.enrollCourses}  // Note: "enrollCourses" not "enrollCourse"
+              key={index}
+            />
   
         ))}
         </div>
