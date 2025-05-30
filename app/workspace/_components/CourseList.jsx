@@ -8,6 +8,7 @@ import AddNewCourseDialog from './AddNewCourseDialog'
 import axios from 'axios'
 import { useUser } from '@clerk/nextjs'
 import CourseCard from './CourseCard'
+
 function CourseList() {
 
     const [courses, setCourseList] = useState([]);
@@ -38,7 +39,7 @@ function CourseList() {
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-rows-3 gap-5 '>
                      {courses?.map((course,index) => (
                         //courseList 
-                     <CourseCard course={course}  key={index} />
+                     <CourseCard course={course}  key={index} refreshData={GetCourseList} />
                     ))}
                 </div>
             )}  
