@@ -6,6 +6,7 @@ import axios from 'axios' // Missing import
 import ChapterListSidebar from '../_components/ChapterListSidebar'
 import ChapterContent from '../_components/ChapterContent'
 import { SelectedChapterIndexProvider } from '@/context/SelectedChapterIndexContext';
+import { toast } from 'sonner'
 
 function Course() {
     const { courseId } = useParams();
@@ -19,15 +20,16 @@ function Course() {
         const result = await axios.get('/api/enroll-course?courseId=' + courseId);
         console.log(result.data);
         setCourseInfo(result.data);
+    
     }
     
     return (
         <SelectedChapterIndexProvider>
-            <div>
+            <div className='fixed w-full bg-white'>
                 <AppHeader hideSidebar={true}/>
                 <div className='flex gap-10'>
                     <ChapterListSidebar courseInfo={courseInfo}/>
-                    <ChapterContent courseInfo={courseInfo} />
+                    <ChapterContent courseInfo={courseInfo} refreshData={() =>  GetEnrolledCourseById() } />
                 </div>
             </div>
         </SelectedChapterIndexProvider>

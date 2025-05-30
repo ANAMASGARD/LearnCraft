@@ -54,3 +54,15 @@ export async function GET(request) {  // Use 'request' not 'req'
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+
+export async function  PUT(req) {
+  const {completedChapter, courseId} = await req.json();
+  const user = await currentUser();
+  const result = await db.update(enrollCourseTable).set({
+    completedChapters: completedChapter
+  }).where(and(eq(enrollCourseTable.cid, courseId),
+  eq( enrollCourseTable.userEmail, user?.primaryEmailAddress.emailAddress)))
+  .returning(enrollCourseTable);
+  
+  return NextResponse.json(result);
+}
