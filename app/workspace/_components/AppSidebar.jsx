@@ -24,12 +24,12 @@ import AddNewCourseDialog from "./AddNewCourseDialog"
 const SidebarOptions = [ {
     title: "Dashboard",
     icon:LayoutDashboard,
-    path:'/workspace',
+    path:'/workspace/#',
 },
 {
     title: "My Learning",
     icon: BookA,
-    path:'/workspace/my-courses',
+    path:'/workspace/my-learning',
 },{
     title: "Explore Courses",
     icon:Compass,

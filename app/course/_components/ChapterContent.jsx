@@ -24,7 +24,7 @@ function ChapterContent({courseInfo, refreshData}) {
       completedChapter.push(selectedChapterIndex);
       const result = await axios.put('/api/enroll-course', { 
         courseId: courseId,
-        completedChapter: completedChapter
+        completedChapters: completedChapter  // ✅ Changed to plural
       });
 
       console.log(result.data);
@@ -39,7 +39,7 @@ function ChapterContent({courseInfo, refreshData}) {
       const completeChap = completedChapter.filter((item) => item !== selectedChapterIndex);
       const result = await axios.put('/api/enroll-course', { 
         courseId: courseId,
-        completedChapter: completeChap
+        completedChapters: completeChap  // ✅ Changed to plural
       });
 
       console.log(result.data);
