@@ -9,20 +9,28 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 
-function ChapterListSidebar({courseInfo}) {
+function ChapterListSidebar({courseInfo, onChapterSelect}) {
   // const { courseId } = useParams();
   const courseId = courseInfo?.courses;
   const enrollCourse = courseInfo?.enrollCourses;  // Changed to plural
   const courseContent = courseInfo?.courses?.courseContent;
   const {selectedChapterIndex , setSelectedChapterIndex}=useContext(SelectedChapterIndexContext);
   let completedChapter = enrollCourse?.completedChapters?? [];
+  
+  const handleChapterClick = (index) => {
+    setSelectedChapterIndex(index);
+    if (onChapterSelect) {
+      onChapterSelect(); // Close sidebar on mobile
+    }
+  };
+  
   return (
-    <div className='w-80 bg-secondary h-screen p-5'>
+    <div className='w-80 bg-secondary h-full p-5'>
         <h2 className=' my-3 text-2xl font-bold '>Chapters ({courseContent?.length})</h2>
         <Accordion type="single" collapsible>
     {courseContent?.map((chapter, index) => (
         <AccordionItem value={chapter?.courseData?.chapterName} key={index}
-          onClick={() => setSelectedChapterIndex(index)} 
+          onClick={() => handleChapterClick(index)} 
           
           >
     <AccordionTrigger className={`text-lg font-medium

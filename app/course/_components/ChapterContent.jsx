@@ -20,36 +20,46 @@ function ChapterContent({courseInfo, refreshData}) {
     const [loading, setLoading] = useState(false);
    const markChapterCompleted = async () => {
     setLoading(true);
-    
+    try {
       completedChapter.push(selectedChapterIndex);
       const result = await axios.put('/api/enroll-course', { 
         courseId: courseId,
-        completedChapters: completedChapter  // ✅ Changed to plural
+        completedChapter: completedChapter  // ✅ Fixed to singular to match API
       });
 
       console.log(result.data);
       await refreshData(); // Add await to ensure data is refreshed
       toast.success('Chapter marked as completed');
+    } catch (error) {
+      console.error('Error marking chapter as completed:', error);
+      toast.error('Failed to mark chapter as completed');
+    } finally {
       setLoading(false);
+    }
    }
 
    const markInCompleteChapter = async () => {
       setLoading(true);
-    
-      const completeChap = completedChapter.filter((item) => item !== selectedChapterIndex);
-      const result = await axios.put('/api/enroll-course', { 
-        courseId: courseId,
-        completedChapters: completeChap  // ✅ Changed to plural
-      });
+      try {
+        const completeChap = completedChapter.filter((item) => item !== selectedChapterIndex);
+        const result = await axios.put('/api/enroll-course', { 
+          courseId: courseId,
+          completedChapter: completeChap  // ✅ Fixed to singular to match API
+        });
 
-      console.log(result.data);
-      refreshData();
-      toast.success('Chapter marked InCompleted');
-      setLoading(false);
+        console.log(result.data);
+        await refreshData();
+        toast.success('Chapter marked as incomplete');
+      } catch (error) {
+        console.error('Error marking chapter as incomplete:', error);
+        toast.error('Failed to mark chapter as incomplete');
+      } finally {
+        setLoading(false);
+      }
    }
 
  return (
-   <div className='p-10'>
+   <div className='p-10 max-w-4xl mx-auto min-h-screen'>
     <div className='flex items-center justify-between mb-5'>
       <h2 className='font-bold text-2xl'>{courseContent?.[selectedChapterIndex]?.courseData?.chapterName}</h2>
       {!completedChapter?.includes(selectedChapterIndex) ? (
