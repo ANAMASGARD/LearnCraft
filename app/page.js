@@ -1096,21 +1096,21 @@ const ContactSection = () => {
     {
       name: "GitHub",
       icon: Github,
-      url: "https://github.com/learncraft",
+      url: "https://github.com/ANAMASGARD",
       color: "from-gray-700 to-gray-900",
       hoverColor: "hover:text-gray-300"
     },
     {
       name: "Twitter",
       icon: Twitter,
-      url: "https://twitter.com/learncraft_ai",
+      url: "https://x.com/GauravC18959107?t=9zYkQqvjjy-QiWOwyO2KMQ&s=09",
       color: "from-blue-400 to-blue-600",
       hoverColor: "hover:text-blue-300"
     },
     {
       name: "LinkedIn",
       icon: Linkedin,
-      url: "https://linkedin.com/company/learncraft",
+      url: "https://www.linkedin.com/in/mrnobody-flex-680baa215?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       color: "from-blue-600 to-blue-800",
       hoverColor: "hover:text-blue-300"
     },

@@ -20,7 +20,9 @@ export async function POST(request) {
         
       }).returning(enrollCourseTable);
 
-      return NextResponse.json(result);
+      // Serialize the result to fix JSON serialization error
+      const serializedResult = JSON.parse(JSON.stringify(result));
+      return NextResponse.json(serializedResult);
   }
     
   return NextResponse.json('resp : Already enrolled in this course');
@@ -40,14 +42,18 @@ export async function GET(request) {  // Use 'request' not 'req'
       eq(enrollCourseTable.cid, courseId)))
       .orderBy(desc(enrollCourseTable.id));
 
-      return NextResponse.json(result[0]);
+      // Serialize the result to fix JSON serialization error
+      const serializedResult = result[0] ? JSON.parse(JSON.stringify(result[0])) : null;
+      return NextResponse.json(serializedResult);
     } else {
       const result = await db.select().from(coursesTable)
       .innerJoin(enrollCourseTable,eq(coursesTable.cid, enrollCourseTable.cid))
       .where(eq(enrollCourseTable.userEmail, user?.primaryEmailAddress.emailAddress))
       .orderBy(desc(enrollCourseTable.id));
 
-      return NextResponse.json(result);
+      // Serialize the result to fix JSON serialization error
+      const serializedResult = JSON.parse(JSON.stringify(result));
+      return NextResponse.json(serializedResult);
     }
   } catch (error) {
     console.error("API error:", error);
@@ -64,5 +70,7 @@ export async function  PUT(req) {
   eq( enrollCourseTable.userEmail, user?.primaryEmailAddress.emailAddress)))
   .returning(enrollCourseTable);
   
-  return NextResponse.json(result);
+  // Serialize the result to fix JSON serialization error
+  const serializedResult = JSON.parse(JSON.stringify(result));
+  return NextResponse.json(serializedResult);
 }
